@@ -1,0 +1,25 @@
+Vector3 eje = pf->getPosition() - GetCamera()->getTransform().p;
+PxQuat orientacion = pf->getOrientation();
+Vector3 ejepf;
+eje.normalize();
+p1->setPosition(pf->getPosition() +  eje);
+p2->setPosition(pf->getPosition() + eje *5);
+p3->setPosition(pf->getPosition() + eje * 10);
+
+float angpf, ang1;
+Vector3 ejePrt, ejeCam;
+//GetCamera()->getTransform().q.toRadiansAndUnitAxis(ang1, ejeCam);
+//p->setPosition(ejeCam * 10);
+float ang_1, ang_2,pescalar;
+  orientacion.toRadiansAndUnitAxis(ang_1, ejePrt);
+Vector3 ejerot;
+ejerot = ejePrt.cross(eje);
+ejerot.normalize();
+eje.normalize();
+ejePrt.normalize();
+pescalar = eje.dot(ejePrt);
+ang_2 = acos(eje.dot(ejePrt));
+  PxQuat qtRot(cos(ang_2*0.5), ejerot);
+if (!qtRot.isSane())
+qtRot.normalize();
+ejePrt = qtRot.rotate(ejePrt);
